@@ -1,6 +1,6 @@
 :- use_module(library('clp/bounds')).
-
 % with clp/bounds we can label inside of predict, if this was clpfd, we label outside
+
 sendmore(Digits) :-
    Digits = [S,E,N,D,M,O,R,Y],
    Digits in 0..9,

@@ -1,5 +1,4 @@
 :- dynamic stored/1.
-
 memo(Goal) :- ( stored(Goal) -> true ; Goal, assertz(stored(Goal)) ).
 
 % tail recursive

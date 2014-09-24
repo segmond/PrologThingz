@@ -22,5 +22,6 @@ findMinAmountOfCoins:-
     min_member(R3, R2),
     write(R3).
 
+%
 takeout(X,[X|R],R).
 takeout(X,[F|R],[F|S]) :- takeout(X,R,S).
