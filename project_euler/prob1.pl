@@ -12,6 +12,6 @@ range(From, To, [From|L]):-
     range(F1, To, L).
 
 start(R2):-
-    range(1,1000,L),
+    range(1,999,L),
     include(divisibleBy3or5, L, R),
     sum_list(R,R2).
