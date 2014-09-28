@@ -1,3 +1,9 @@
+:-module(predicate_types,
+    [   add_weird_types/3,
+        add_points/3,
+        add_even/3
+    ]).
+
 :-use_module(library(mavis)).
 
     /* This style is a bit more problematic, I don't like annotations much anyways.
@@ -16,22 +22,18 @@ error:has_type(div_by_5, X):-
 error:has_type(odd, X):-
     1 =:= X mod 2.
 
-%% addWeirdTypes(+X:div_by_5, +Y:odd, -Z:integer)
-addWeirdTypes(X, Y, Z):-
+%% add_weird_types(+X:div_by_5, +Y:odd, -Z:integer)
+add_weird_types(X, Y, Z):-
     Z is X + Y.
 
 
 even(X):-
     0 =:= X mod 2.
 
-addPoints(point(A,B), point(C,D), point(X,Y)):-
+add_points(point(A,B), point(C,D), point(X,Y)):-
     X is A + C,
     Y is B + D.
 
-addEven(even(X), even(Y), Z):-
+add_even(even(X), even(Y), even(Z)):-
     even(X), even(Y),
     Z is X + Y.
-
-start:-
-    X = even(5), Y = even(7), addEven(X,Y,Z).
-    addPoints(point(1,7), point(20, 5), Z).
