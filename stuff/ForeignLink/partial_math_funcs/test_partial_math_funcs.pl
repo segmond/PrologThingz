@@ -8,3 +8,20 @@ start:-
 
     format('add(20,Y,8)~n'),
     add(20,Z,8), format('** 20 + [~w] is 8~n', Z).
+
+
+count_down(0).
+count_down(X):-
+    writeln(X),
+    add(1,Y,X),
+    count_down(Y).
+
+
+count_up(X):-
+    count_up(0,X).
+count_up(X,A):-
+    writeln(X),
+    add(X,1,Y),
+    Y < A,
+    count_up(Y,A).
+count_up(_).
