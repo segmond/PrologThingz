@@ -1,4 +1,5 @@
 /*  Include file depends on local installation */
+#include <gmp.h>
 #include <SWI-Prolog.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,6 +10,7 @@
  * a + b = c
  * c - a = b
  * c - b = a
+ * Have it handle big numbers, yeaaah.
  */
 
 foreign_t
@@ -16,22 +18,26 @@ pl_add(term_t a, term_t b, term_t c)
 { 
     char *copy;
     char *s, *q;
-    int rval, res;
-    int aval, bval, cval;
+    int rval;
+    mpz_t aval, bval, cval, res;
     int aset, bset, cset;
     int i_cnt = 0;
 
     aset = bset = cset = 0;
+    mpz_init(aval);
+    mpz_init(bval);
+    mpz_init(cval);
+    mpz_init(res);
 
-    if ( !PL_get_integer(a, &aval) ) {
+    if ( !PL_get_mpz(a, aval) ) {
         aset = 1;
         i_cnt++;
     }
-    if ( !PL_get_integer(b, &bval) ) {
+    if ( !PL_get_mpz(b, bval) ) {
         bset = 1;
         i_cnt++;
     }
-    if ( !PL_get_integer(c, &cval) ) {
+    if ( !PL_get_mpz(c, cval) ) {
         cset = 1;
         i_cnt++;
     }
@@ -39,16 +45,20 @@ pl_add(term_t a, term_t b, term_t c)
         return PL_warning("add/3: instantiation fault");
     }
     if (aset == 1) {
-        res = cval - bval;
-        rval = PL_unify_integer(a, res);
+        mpz_sub(res,cval,bval);
+        rval = PL_unify_mpz(a, res);
     } else if (bset == 1) {
-        res = cval - aval;
-        rval = PL_unify_integer(b, res);
+        mpz_sub(res,cval,aval);
+        rval = PL_unify_mpz(b, res);
     } else {
-        res = aval + bval;
-        rval = PL_unify_integer(c, res);
+        mpz_add(res,aval,bval);
+        rval = PL_unify_mpz(c, res);
     }
 
+    mpz_clear(aval);
+    mpz_clear(bval);
+    mpz_clear(cval);
+    mpz_clear(res);
     return rval;
 }
 

@@ -37,3 +37,19 @@ add_points(point(A,B), point(C,D), point(X,Y)):-
 add_even(even(X), even(Y), even(Z)):-
     even(X), even(Y),
     Z is X + Y.
+
+/* just testing, too long and winded tho */
+:- meta_predicate add_odd(2).
+odd(X):-
+    1 =:= X mod 2.
+add_odd(X, Y, even(Z)):-
+    callable(X), callable(Y),
+    call(X),call(Y),
+    odd(Xval) =  X,
+    odd(Yval) = Y,
+    Z is Xval + Yval.
+
+
+/* TODO: checkout the type_check pack 
+http://tomschrijvers.blogspot.com/2008/02/types-for-prolog.html
+*/

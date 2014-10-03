@@ -1,5 +1,3 @@
-:-use_module(library(clpfd)).
-%
 :- dynamic stored/1.
 memo(Goal) :- ( stored(Goal) -> true ; Goal, assertz(stored(Goal)) ).
 
