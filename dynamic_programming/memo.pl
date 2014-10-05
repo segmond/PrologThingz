@@ -12,8 +12,8 @@ fib(N, F) :-
     fib(N, 0, 1, F).
 
 % Naive
-fibN(0, 0).
-fibN(1, 1).
+fibN(0, 0):- !.
+fibN(1, 1):- !.
 fibN(N, NF) :-
     A is N - 1, B is N - 2,
     fibN(A, AF), fibN(B, BF),
