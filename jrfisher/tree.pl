@@ -20,3 +20,23 @@ X is_same_level_as Y :-
     A is_parent X,
     B is_parent Y,
     A is_same_level_as B.
+
+:- op(500,xfx,'has_depth').
+
+a has_depth 0:- !.
+Node has_depth D :-
+    Mother is_parent Node,
+    Mother has_depth D1,
+    D is D1 + 1.
+
+/* Locate note by finding a path froom root down to the node */
+locate(Node) :- 
+    path(Node),
+    writeln(Node).
+
+path(a).
+path(Node) :-
+    Mother is_parent Node,
+    path(Mother),
+    write(Mother),
+    write(' --> ').
