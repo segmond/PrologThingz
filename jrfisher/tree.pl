@@ -40,3 +40,29 @@ path(Node) :-
     path(Mother),
     write(Mother),
     write(' --> ').
+
+/* Calculate the height of a node, length of longest path to a leaf under the node */
+
+height(N,H) :-
+    setof(Z, ht(N,Z),Set),
+    max(Set,0,H).
+
+ht(Node, 0) :-
+    leaf(Node), !.
+ht(Node, H) :-
+    Node is_parent Child,
+    ht(Child, H1),
+    H is H1 + 1.
+
+leaf(Node) :-
+    \+ is_parent(Node, Child).
+
+max([], M,M).
+max([X|R],M,A) :-
+    (X > M -> max(R,X,A) ; max(R,M,A)).
+
+leaves(Parent,Node) :-
+    Parent is_parent Child,
+    leaves(Child, Node).
+leaves(Node, Child) :-
+    leaf(Node), Node = Child, !.
