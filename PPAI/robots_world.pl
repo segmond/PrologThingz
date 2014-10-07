@@ -3,6 +3,7 @@
 see(a,2,5).
 see(d,5,5).
 see(e,5,2).
+see(z,2,5).
 
 % robot can keep track of what each block is standing on
 % on(Item, Holder)
@@ -21,7 +22,7 @@ non_visible_blocks(B) :-
 % left most block with it's X cord
 left_most_block(B,X) :-
     see(B,X,_),
-    \+ (see(B2,X2,_), X2 < X).
+    \+ (see(_,X2,_), X2 < X).
 
 % blocks with nothing on them
 free_blocks(B) :-
@@ -44,8 +45,23 @@ top_most_block(B) :-
 
 max_block([A|X],[B|Y],R):-
     max_block(X,Y,B,A,R).
-max_block([],[],Max,Block,Block).
-max_block([A|X], [B|Y], Max,Block, R) :-
+max_block([],[],_,Block,Block).
+max_block([_|X], [B|Y], Max,Block, R) :-
     Max > B , max_block(X,Y,Max,Block,R).
-max_block([A|X], [B|Y], Max, Block,R) :-
+max_block([A|X], [B|Y], Max, _,R) :-
     Max =< B , max_block(X,Y,B,A,R).
+
+% X, Y of Block
+xy(B,X,Y) :-
+    see(B,X,Y).
+xy(B,X,Y) :-
+    on(Above,B),
+    xy(Above,X,Y).
+
+xyz(B,X,Y,Z):-
+    xy(B,X,Y),
+    height_of_block(B,Z).
+
+move(From, To) :-
+    \+ on(_, From),
+    see(From, X, Y).
