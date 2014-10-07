@@ -1,3 +1,4 @@
+% prolog exercises
 member(E, [E|_]).
 member(E, [_|T]):-
     member(E, T).
@@ -44,3 +45,23 @@ tr_inner([],[],Acc,Acc).
 tr_inner([H1|TVecA], [H2|TVecB], Acc, DotProduct):-
     NewAcc is Acc  + (H1 * H2),
     tr_inner(TVecA, TVecB, NewAcc, DotProduct).
+
+% max
+mmax([],A,A).
+mmax([H|T],A,M):-
+    H > A, mmax(T, H, M).
+mmax([H|T],A,M):-
+    H =< A, mmax(T, A, M).
+
+mmax([H|T],R):-
+    mmax([H|T],H,R).
+
+% min
+mmin([],A,A).
+mmin([H|T],A,M):-
+    H > A, mmin(T, A, M).
+mmin([H|T],A,M):-
+    H =< A, mmin(T, H, M).
+
+mmin([H|T],R):-
+    mmin([H|T],H,R).
