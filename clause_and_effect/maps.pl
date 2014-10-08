@@ -20,6 +20,21 @@ squint([A|X],[B|Y]) :-
 squint([A|X],[A|Y]) :-
     squint(X,Y).
 
+% full maps with state
+ms([], _, []).
+ms([H|T], N, [C|L]) :-
+    C is H+N, 
+    ms(T,C,L).
+mapsum(A,B) :-
+    ms(A,0,B).
+
+
+enum_aux([],_,[]).
+enum_aux([H|T], N, [n(H,N1)|L]) :-
+    N1 is N+1,
+    enum_aux(T,N1,L).
+enum(A,B):-
+    enum_aux(A,0,B).
 
 % partial mapping
     % ie, sum of list
@@ -50,6 +65,7 @@ setify([H|T], L) :-
 setify([H|T], [H|R]) :-
     setify(T,R).
 
+
 % disjoint maps
     % ie, two lists one positive, one negative from a set of numbers
 
@@ -65,7 +81,9 @@ herd([H|T],S,G,[H|O]) :-
     herd(T,S,G,O).
 
 
-alternate(L,Even,Odd).
+alternate(L,Even,Odd):-
+    alternate(odd,L,Even,Odd).
+
 alternate(odd,[],[],[]).
 alternate(even,[H|T],[H|E],O) :-
     alternate(odd,T,E,O).
@@ -79,11 +97,11 @@ firstcol([[A|B]|M],[A|C]) :-
 
 % firstcol(M,C), succeds for the matrix that has list C as it's first tranposed column
 first_transpose_col([],[]).
-first_transpose_col([[A|B]|M],[A|C]) :-
+first_transpose_col([[A|_]|M],[A|C]) :-
     first_transpose_col(M,C).
 
 next_transpose_col([],[]).
-next_transpose_col([[A|B]|M],[B|C]) :-
+next_transpose_col([[_|B]|M],[B|C]) :-
     next_transpose_col(M,C).
 
 slower_transpose([[]|_], []).
