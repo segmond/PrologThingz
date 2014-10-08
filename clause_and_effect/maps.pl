@@ -42,8 +42,36 @@ censor([H|T], [H|R]) :-
 censor([_|T], R) :-
     censor(T, R).
 
+setify([],[]).
+setify([H|T], L) :-
+    member(H, T),
+    !,
+    setify(T,L).
+setify([H|T], [H|R]) :-
+    setify(T,R).
+
 % disjoint maps
     % ie, two lists one positive, one negative from a set of numbers
+
+% separate herd into sheeps and goats
+herd([],[],[],[]).
+herd([sheep|T],[sheep|S], G, O) :-
+    !,
+    herd(T,S,G,O).
+herd([goat|T],S,[goat|G],O) :-
+    !,
+    herd(T,S,G,O).
+herd([H|T],S,G,[H|O]) :-
+    herd(T,S,G,O).
+
+
+alternate(L,Even,Odd).
+alternate(odd,[],[],[]).
+alternate(even,[H|T],[H|E],O) :-
+    alternate(odd,T,E,O).
+alternate(odd,[H|T],E,[H|O]) :-
+    alternate(even,T,E,O).
+
 % sequential
     % ie, run lenght encoding, original can be reconstructed
 % scattered
