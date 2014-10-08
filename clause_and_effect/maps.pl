@@ -72,6 +72,37 @@ alternate(even,[H|T],[H|E],O) :-
 alternate(odd,[H|T],E,[H|O]) :-
     alternate(even,T,E,O).
 
+% firstcol(M,C), succeds for the matrix that has list C as it's first column
+firstcol([[]|_],[]).
+firstcol([[A|B]|M],[A|C]) :-
+    firstcol([B|M],C).
+
+% firstcol(M,C), succeds for the matrix that has list C as it's first tranposed column
+first_transpose_col([],[]).
+first_transpose_col([[A|B]|M],[A|C]) :-
+    first_transpose_col(M,C).
+
+next_transpose_col([],[]).
+next_transpose_col([[A|B]|M],[B|C]) :-
+    next_transpose_col(M,C).
+
+slower_transpose([[]|_], []).
+slower_transpose(M, [C|R]) :-
+    first_transpose_col(M, C),
+    next_transpose_col(M,N),
+    slower_transpose(N,R).
+
+transpose([[]|_],[]).
+transpose(M, [H|Trm]) :-
+    chopcol(M,H,T), 
+    transpose(T,Trm).
+
+% chop col, chops up a matrix, return the first col and the rest of the matrix
+chopcol([],[],[]).
+chopcol([[A|B]|M],[A|C],[B|T]):-
+    chopcol(M,C,T).
+    
+
 % sequential
     % ie, run lenght encoding, original can be reconstructed
 % scattered
