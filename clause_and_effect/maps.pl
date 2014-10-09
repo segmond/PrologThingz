@@ -123,6 +123,9 @@ chopcol([[A|B]|M],[A|C],[B|T]):-
 
 % sequential
     % ie, run lenght encoding, original can be reconstructed
+    % sequential map with state
+runcode(L,R):-
+    runcode(L,_,0,R).
 runcode([], C, N, [N*C]).
 runcode([H|T],H,N,Z) :-
     N1 is N+1,
@@ -130,6 +133,29 @@ runcode([H|T],H,N,Z) :-
 runcode([H|T],C,N,[N*C|Z]) :-
     H \== C,
     runcode(T,H,1,Z).
+
 % scattered
     % ie, frequency distribution, original is lost
 
+test(R):-
+    collect_all([q(17,duck), q(15,goose),q(41,quail),q(5,duck),q(12,goose),q(37,quail)], R).
+
+collect_all(L,R):-
+    collect_all(L,0,_,[],R), !.
+%collect all similiar items
+collect_all([],_,_,Acc,Acc).
+collect_all([H|T],A,P,Acc,Z):-
+    collect_same([H|T],A,P,CP),
+    q(_,QP) = CP,
+    (\+ member(q(_,QP),Acc) -> collect_all(T,A,_,[CP|Acc],Z); collect_all(T,A,_,Acc,Z)).
+
+%collect just the same
+collect_same([],A,P,q(A,P)).
+collect_same([q(Amt,Part)|T],A,Part,R):-
+    NewAmt is Amt + A,
+    collect_same(T,NewAmt,Part,R).
+collect_same([q(_,_)|T],A,DPart,R):-
+    collect_same(T,A,DPart,R).
+
+coll([],[]).
+%coll(q(N,X)|R], 
