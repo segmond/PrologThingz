@@ -140,9 +140,9 @@ runcode([H|T],C,N,[N*C|Z]) :-
 test(R):-
     collect_all([q(17,duck), q(15,goose),q(41,quail),q(5,duck),q(12,goose),q(37,quail)], R).
 
+%collect all similiar items
 collect_all(L,R):-
     collect_all(L,0,_,[],R), !.
-%collect all similiar items
 collect_all([],_,_,Acc,Acc).
 collect_all([H|T],A,P,Acc,Z):-
     collect_same([H|T],A,P,CP),
@@ -157,5 +157,17 @@ collect_same([q(Amt,Part)|T],A,Part,R):-
 collect_same([q(_,_)|T],A,DPart,R):-
     collect_same(T,A,DPart,R).
 
+% as implemented in book
+
 coll([],[]).
-%coll(q(N,X)|R], 
+coll([q(N,X)|R], [q(T,X)|R2]) :-
+    collz(X,N,R,Q,T),
+    coll(Q,R2).
+
+collz(_,N,[],[],N).
+collz(X,N,[q(Num,X)|R],Q,T) :-
+    M is N + Num,
+    collz(X,M,R,Q,T).
+collz(X,N,[Q|R],[Q|Qs],T) :-
+    collz(X,N,R,Qs,T).
+
