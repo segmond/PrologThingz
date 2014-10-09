@@ -123,6 +123,13 @@ chopcol([[A|B]|M],[A|C],[B|T]):-
 
 % sequential
     % ie, run lenght encoding, original can be reconstructed
+runcode([], C, N, [N*C]).
+runcode([H|T],H,N,Z) :-
+    N1 is N+1,
+    runcode(T,H,N1,Z).
+runcode([H|T],C,N,[N*C|Z]) :-
+    H \== C,
+    runcode(T,H,1,Z).
 % scattered
     % ie, frequency distribution, original is lost
 

@@ -62,6 +62,7 @@ xyz(B,X,Y,Z):-
     xy(B,X,Y),
     height_of_block(B,Z).
 
+% work in progress
 move(From, To) :-
     \+ on(_, From),
     see(From, X, Y).
