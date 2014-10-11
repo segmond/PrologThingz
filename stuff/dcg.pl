@@ -1,13 +1,34 @@
+% definite clause grammars, ugh, get the need and use of it, don't get it yet.
+
 % lists that only contain the atom a
 as --> [].
 as --> [a], as.
 %phrase(as, L).
 
+% a b in any order
 ab --> [].
 ab --> [a], aba.
 aba --> [].
 aba --> [b], ab.
 
+% a and b in any other
+oaba --> [].
+oaba --> a, oaba.
+oaba --> b, oaba.
+a --> [a].
+b --> [b].
+
+% any number of a's followed by any number of b's
+bba --> [].
+bbb --> [].
+bba --> [a], bba.
+bba --> [b], bbb.
+bbb --> [b], bbb.
+
+
+% repeat ab
+abab --> [].
+abab --> a, abab, b.
 
 
 cliche -->
