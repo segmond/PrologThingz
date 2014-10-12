@@ -36,3 +36,12 @@ esplit([H|T], P,N,PAcc,NAcc):-
         esplit(T, P, N,PAcc,[H|NAcc]).
 
 
+% set difference
+% sd(A,B,C) succeeds when set C is the result of subtract set B from set A
+sd([],_,[]).
+sd([E|S1],S2,S3):-
+    member(E,S2),
+    !,
+    sd(S1,S2,S3).
+sd([E|S1],S2,[E|S3]):-
+    sd(S1,S2,S3).
