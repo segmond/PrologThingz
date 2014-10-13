@@ -40,7 +40,12 @@ ot_delete(A, n(M,L,R), n(M,X,R)) :-
 ot_delete(A, n(M,L,R), n(M,L,X)) :-
     A > M,
     ot_delete(A, R, X).
+
 % delete a node with two items
+% seems a big buggy, doesn't balance out, FIXME
+ot_delete(Item, n(Item,L,R), n(N,X,R)):-
+    L = n(N,NL,NR),
+    ot_delete(N, L, X).
 
 % build our binary tree
 build_ot(L, X):-
@@ -79,7 +84,22 @@ apply_on_ot(Func, n(A,L,R), n(X,NewL,NewR)):-
     format('~w -> ~w~n', [A,X]),
     apply_on_ot(Func, R, NewR).
 
+% traverse in tree order from left to right
+pretty_print_ot([], _).
+pretty_print_ot(n(A,L,R), Indent):-
+    NewIndent is Indent + 4,
+    pretty_print_ot(R,NewIndent),
+    format('~*+ ~w~n', [Indent,A]),
+    pretty_print_ot(L,NewIndent).
+
+
 test(Z):-
     build_ot([16,17,14,15,20,10,9,8], X), 
     traverse_ot(X), 
     apply_on_ot(plus(100),X,Z).
+
+test2:-
+    build_ot([20,10,50,5,15,45,55,1,7,14,17,43,48,52,60], X), 
+    pretty_print_ot(X,0),
+    ot_delete(20,X,X1), 
+    pretty_print_ot(X1,0).
