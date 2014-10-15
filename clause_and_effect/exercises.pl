@@ -65,3 +65,6 @@ mmin([H|T],A,M):-
 
 mmin([H|T],R):-
     mmin([H|T],H,R).
+
+my_once(G):-
+    call(G), !.
