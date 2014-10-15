@@ -4,11 +4,11 @@
 ot_insert(A,[],n(A,[],[])).
 % insert smaller item to the left
 ot_insert(A,n(M,L,R),n(M,X,R)):-
-    A < M,
+    A < M, !,
     ot_insert(A,L,X).
 % insert larger item to the right
 ot_insert(A,n(M,L,R),n(M,L,X)):-
-    A > M,
+    A > M, !,
     ot_insert(A,R,X).
 % insert item that exists in the tree
 ot_insert(A,n(A,L,R),n(A,L,R)).
@@ -18,11 +18,11 @@ ot_insert(A,n(A,L,R),n(A,L,R)).
 ot_lookup(Item, n(Item, _,_)).
 % lookup up item smaller, then go left
 ot_lookup(Item, n(M,L,_)):-
-    Item < M,
+    Item < M, !,
     ot_lookup(Item, L).
 % lookup up item larger, then go right
 ot_lookup(Item, n(M,_,R)):-
-    Item > M,
+    Item > M, !,
     ot_lookup(Item, R).
 
 
@@ -34,17 +34,17 @@ ot_delete(Item, n(Item, L,[]), L).
 ot_delete(Item, n(Item, [],R), R).
 % delete an item less than 
 ot_delete(A, n(M,L,R), n(M,X,R)) :-
-    A < M,
+    A < M, !,
     ot_delete(A, L, X).
 % delete an item more than 
 ot_delete(A, n(M,L,R), n(M,L,X)) :-
-    A > M,
+    A > M, !,
     ot_delete(A, R, X).
 
 % delete a node with two items
 % seems a big buggy, doesn't balance out, FIXME
 ot_delete(Item, n(Item,L,R), n(N,X,R)):-
-    L = n(N,NL,NR),
+    L = n(N,NL,NR), !,
     ot_delete(N, L, X).
 
 % build our binary tree

@@ -10,15 +10,18 @@ last(E, [], [E]).
 last(E,[H|T], [H|X]):-
     last(E,T,X).
 
-% broken
-xsublist([],_).
-xsublist([A|B],[H|T]):-
-    xsublist([A|B],T).
-xsublist([H|B],[H|T]):-
-    xsublist(B,T).
+% prefix
+gprefix([],_).
+gprefix([H|T],[H|Y]):-
+    gprefix(T,Y).
 
+% use prefix
+gsublist(S,L):-
+    gprefix(S,L).
+gsublist(S,[H|T]):-
+    gsublist(S,T).
+    
+% book definition
 sublist(S,L):-
     append(L1,L2,L),
     append(S,L3,L2).
-    
-

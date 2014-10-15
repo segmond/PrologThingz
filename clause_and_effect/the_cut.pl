@@ -45,3 +45,17 @@ sd([E|S1],S2,S3):-
     sd(S1,S2,S3).
 sd([E|S1],S2,[E|S3]):-
     sd(S1,S2,S3).
+
+% cut and negation as failure
+
+% john likes any food except beef
+likes(john, X) :- food(beef), !, fail.
+likes(john, X) :- food(X).
+
+% different
+different(X,X) :- !, fail.
+different(X,Y).
+
+my_not(G):-
+    call(G), !, fail.
+my_not(_).
