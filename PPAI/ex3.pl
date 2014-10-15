@@ -25,3 +25,10 @@ gsublist(S,[H|T]):-
 sublist(S,L):-
     append(L1,L2,L),
     append(S,L3,L2).
+
+evenlength([]).
+evenlength([A,B|T]):-
+    evenlength(T).
+
+oddlength([H|T]):-
+    evenlength(T).
