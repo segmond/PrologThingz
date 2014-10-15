@@ -65,9 +65,9 @@ traverse_ot(n(A,L,R)):-
 % traverse in less than order, sort
 traverse_ot_lt([]).
 traverse_ot_lt(n(A,L,R)):-
-    traverse_ot_lt(R),
+    traverse_ot_lt(L),
     format('~w~n', [A]),
-    traverse_ot_lt(L).
+    traverse_ot_lt(R).
 
 % traverse in greater than order, sort
 traverse_ot_gt([]).
