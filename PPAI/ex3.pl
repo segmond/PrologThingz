@@ -69,6 +69,24 @@ xsubset([], _).
 xsubset([H|T],S):-
     member(H,S),
     xsubset(T,S).
+% a bit better, but still broken
+wsubset(_,[]).
+wsubset(S,[H|T]):-
+    wsubset(S,T),
+    member(H,S).
+
+% better - from stackoverflow
+vvappend([],L,L).
+vvappend([H|T],L,[H|L1]):-
+    vvappend(T,L,L1).
+vvsubset([X|T],[X|L]):-
+    vvsubset(T,L).
+vvsubset([X|T],[G|L]) :-
+    vvsubset([X],L),
+    vvappend(L2,[X|L3],[G|L]),
+    vvappend(L2,L3,L4),
+    vvsubset(T,L4).
+vvsubset([],_).
 
 %ex 3.9
 dividelist([],[],[]).
@@ -130,3 +148,32 @@ ordered_aux([H|T], Cmp):-
     H >= Cmp,
     ordered_aux(T,H).
 ordered_aux([],_).
+
+
+%ex 3.20
+sumlist(L,R):-
+    sumlist(L,0,R).
+sumlist([],Acc,Acc).
+sumlist([H|T], Acc, R):-
+    NewAcc is H + Acc,
+    sumlist(T,NewAcc,R).
+subsum(Set, Sum, SubSet):-
+    vvsubset(SubSet,Set),
+    sumlist(SubSet, Sum).
+
+%ex3.21
+mybetween(N1,N2,X):-
+    N2 - N1 > 1,
+    X is N1 + 1.
+mybetween(N1,N2,X):-
+    N2 - N1 > 1,
+    NextN is N1 + 1,
+    mybetween(NextN,N2,X).
+
+% ex 3.22
+% BROKEN as well, FIXME
+:-op(1000,fx,if).
+:-op(1010,xfx,:==).
+:-op(1020,xfx,then).
+:-op(1030,xfx,else).
+
