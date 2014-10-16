@@ -12,7 +12,7 @@
 % support code
 
 :-dynamic(fact/1).
-:-op(800, fx, iF).                     % iProlog has "if" predefined
+:-op(800, fx, if).                     % iProlog has "if" predefined
 :-op(700, xfx, then).
 :-op(300, xfy, or).
 :-op(200, xfy, and).
@@ -29,7 +29,7 @@ forward  :-
    write( 'No more facts').          % All facts derived
 
 new_derived_fact( Concl)  :-
-   iF Cond then Concl,               % A rule   
+   if Cond then Concl,               % A rule   
    not( fact( Concl)),               % Rule's conclusion not yet a fact
    composed_fact( Cond).             % Condition true? 
 
@@ -47,22 +47,22 @@ composed_fact( Cond1 or Cond2)  :-
 
 % rules
 
-iF
+if
   hall_wet and kitchen_dry
 then
   leak_in_bathroom.
 
-iF
+if
   hall_wet and bathroom_dry
 then
   problem_in_kitchen.
 
-iF
+if
   window_closed or no_rain
 then
   no_water_from_outside.
 
-iF
+if
   problem_in_kitchen and no_water_from_outside
 then
   leak_in_kitchen.
