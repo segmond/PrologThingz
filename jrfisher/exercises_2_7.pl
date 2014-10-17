@@ -30,6 +30,10 @@ subset([X|R],S):-
     member(X,S),
     subset(R,S).
 
+zsubset(X,Y):-
+    sublist(X,M),
+    perm(M,Y).
+
 union([],R,R).
 union([H|T],L,[H|R]):-
     \+ member(H,L),

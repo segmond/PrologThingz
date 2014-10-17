@@ -49,6 +49,8 @@ sd([E|S1],S2,[E|S3]):-
 % cut and negation as failure
 
 % john likes any food except beef
+food(beans).
+food(rice).
 likes(john, X) :- food(beef), !, fail.
 likes(john, X) :- food(X).
 
@@ -59,3 +61,31 @@ different(X,Y).
 my_not(G):-
     call(G), !, fail.
 my_not(_).
+
+% negation as failure can be misleading
+occupation(seg, programmer).
+innocent(peter_pan).
+innocent(X):-
+    occupation(X,nun).
+innocent(winn_the_pooh).
+innocent(julie_andrews).
+guilty(X):-
+    occupation(X,thief).
+guilty(joe_bloggs).
+
+guilty(X):- % this is flawed
+    \+(innocent(X)).
+% guilty(st_francis).
+
+
+% negation as failure just is problematic, just fail
+good_hotel(goedels).
+good_hotel(freges).
+good_hotel(schoenfinkels).
+good_hotel(wittgensteins).
+expensive_hotel(goedels).
+expensive_hotel(wittgensteins).
+reasonable(R):-
+    not(expensive_hotel(R)).
+
+%good_hotel(X), reasonable(X) doesn't give same answer as reasonable(X), good_hotel(X).

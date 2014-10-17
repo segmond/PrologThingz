@@ -88,6 +88,8 @@ vvsubset([X|T],[G|L]) :-
     vvsubset(T,L4).
 vvsubset([],_).
 
+% http://lpaste.net/112744 might have a hint or solutin - from eazar001 on ##prolog@freenode
+
 %ex 3.9
 dividelist([],[],[]).
 dividelist([A],[A],[]).

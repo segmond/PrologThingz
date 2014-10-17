@@ -30,7 +30,7 @@ seen_path(Z, [H|T]) :-
 % find path from g->c while avoiding f
 % path(g,c,[f]).
 % where can a go to avoiding f and d
-% path(a,X[f,d]).
+% path(a,X,[f,d]).
 
 % find path using partial maps
 % we can give as one of the arguments to the path a complete list of all the nodes in the graph.
