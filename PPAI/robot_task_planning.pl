@@ -25,3 +25,10 @@ plan(State,State,[]). % To achieve State from State itself, do nothing.
 plan(State1, GoalState, [Action1 | RestOfPlan]):-
     action(State1, Action1, State2), % make first action resulting in State2
     plan(State2, GoalState, RestOfPlan). % find rest of plan
+
+% ?- S0 = state(door,corner2,floor(middle)),plan(S0,state(_,_,held),Plan).
+% ?- S0 = state(door,corner2,floor(middle)),plan(S0,state(_,_,in_basket),Plan).
+% ?- S0 = state(point(0,200),point(600,400),floor(point(300,200))),plan(S0,state(_,_,in_basket),Plan).
+% ex4.1
+% ?- S0 = state(door,corner2,floor(middle)), append(Plan,_,_), plan(S0,state(door,corner1,in_basket),Plan).
+

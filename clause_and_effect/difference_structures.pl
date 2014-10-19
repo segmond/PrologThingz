@@ -6,13 +6,13 @@ rotall([H|T],A,[L|Z]):-
     rotall(T,A1,Z).
 
 % linearising
-app(L1-L2,L3-L4,X-Y):-
+myapp(L1-L2,L3-L4,X-Y):-
     X = L1,
     L2 = L3,
     Y = L4.
 
-testapp:-
-    app([a,b,c|Z1]-Z1,[d,e|Z2]-Z2,X-Y).
+testmyapp:-
+    myapp([a,b,c|Z1]-Z1,[d,e|Z2]-Z2,X-Y).
 
 
 % very fast, compared to regular, for 10000 items, 30k inferences instead of 50million
@@ -32,7 +32,7 @@ flatten_diff_aux([],End-End).
 flatten_diff_aux([H|T],Res-ResEnd):-
     flatten_diff_aux(H,FL-Flend),
     flatten_diff_aux(T,TL-Tlend),
-    app(FL-Flend,TL-Tlend, Res-ResEnd).
+    myapp(FL-Flend,TL-Tlend, Res-ResEnd).
 flatten_diff_aux(E,[E|End]-End).
 
 % the right way, join them without append
@@ -111,3 +111,14 @@ norm(A+B,R1,R3):-
     norm(B,R2,R3).
 norm(X,[],X):- !.
 norm(X,A,A+X).
+
+%better app
+app(A-B,B-C,A-C).
+% rotation revisited
+myrot1([H|T],X-Y):-
+    app(T-L2,L2-H,X-Y).    
+rot1([A|B]-X,Y):-
+    app(B-X,[A|W]-W,Y).    
+rot2(X,Z) :-
+    rot1(X,Y),
+    rot1(Y,Z).
