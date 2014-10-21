@@ -113,12 +113,16 @@ norm(X,[],X):- !.
 norm(X,A,A+X).
 
 %better app
-app(A-B,B-C,A-C).
+app(A-B,C-D,A-D):-
+    B = C.
 % rotation revisited
 myrot1([H|T],X-Y):-
     app(T-L2,L2-H,X-Y).    
-rot1([A|B]-X,Y):-
-    app(B-X,[A|W]-W,Y).    
-rot2(X,Z) :-
-    rot1(X,Y),
-    rot1(Y,Z).
+rot1([A|B]-X,Res-Z):-
+    app(B-X,[A|W]-W,Res-Z).
+
+rotN(0,R,R).
+rotN(N,X,Z) :-
+    rot1(X,Z1),
+    NewN is N - 1,
+    rotN(NewN,Z1,Z).
