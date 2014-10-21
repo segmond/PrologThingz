@@ -63,6 +63,13 @@ translate([H|T], [X|Y]):-
     means(H,X),
     translate(T,Y).
 
+% correct solution
+subset(Set, []).
+subset([HSet|Set], [HSet|Sub]):-
+    subset(Set, Sub).
+subset([_|Set], Sub):-
+    subset(Set, Sub).
+
 %ex 3.8
 % broken FIXME
 xsubset([], _).
@@ -75,18 +82,6 @@ wsubset(S,[H|T]):-
     wsubset(S,T),
     member(H,S).
 
-% better - from stackoverflow
-vvappend([],L,L).
-vvappend([H|T],L,[H|L1]):-
-    vvappend(T,L,L1).
-vvsubset([X|T],[X|L]):-
-    vvsubset(T,L).
-vvsubset([X|T],[G|L]) :-
-    vvsubset([X],L),
-    vvappend(L2,[X|L3],[G|L]),
-    vvappend(L2,L3,L4),
-    vvsubset(T,L4).
-vvsubset([],_).
 
 % http://lpaste.net/112744 might have a hint or solutin - from eazar001 on ##prolog@freenode
 
