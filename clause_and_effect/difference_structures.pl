@@ -25,6 +25,13 @@ reverse_diff([H|T], X,Y):-
     Y = HEnd,
     reverse_diff(T,Res,REnd).
 
+/*
+?- length(L,50000000), time(reverse_diff(L,R)).
+% 50,000,001 inferences, 12.865 CPU in 13.400 seconds (96% CPU, 3886368 Lips)
+L = [_G19, _G22, _G25, _G28, _G31, _G34, _G37, _G40, _G43|...],
+R = [_G150000016, _G150000013, _G150000010, _G150000007, _G150000004, _G150000001, _G149999998, _G149999995, _G149999992|...] .
+*/
+
 % meh, just a bit better
 flatten_diff(L,R):-
     flatten_diff_aux(L,R-[]).

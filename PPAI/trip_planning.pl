@@ -59,3 +59,19 @@ rest_schedule(Place at Time1, Dest, [stay(Place,Time1,Time2)|Rest]):-
 list([]).
 list([_|L]):-
     list(L).
+
+
+%
+foo(Schedule):-
+    schedule(riva at Start, riva at End, Schedule), % start at riva, end at at riva
+    before(9:00, Start),                            % start trip after 9pm
+    before(End, 18:30),                             % end trip before 18:30
+
+    member(stay(limone, T1,T2), Schedule),          % include stay at limone
+    before(11:30,T1),                               % arive at limone between 11:30 
+    before(T1, 13:00),                              %   and 13:00
+    time_diff(T1,T2,D1), D1 >= 90,                  % stay at limone for at least 90 min
+    %before(T2, 14:30),                             % finish lunch before 2:30pm, this is wrong
+
+    member(stay(malcesine,M1,M2), Schedule),        % include stay at malcesine
+    time_diff(M1,M2,D2), D2 >= 90.                  % stay at malcesine for at least 90 min
