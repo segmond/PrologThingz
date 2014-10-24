@@ -92,6 +92,39 @@ pretty_print_ot(n(A,L,R), Indent):-
     format('~*+ ~w~n', [Indent,A]),
     pretty_print_ot(L,NewIndent).
 
+% copy tree in order from left to right
+copy_tree([],[]).
+copy_tree(n(A,L,R), n(A,LT,RT)):-
+    copy_tree(L, LT),
+    copy_tree(R, RT).
+
+% find largest item
+find_largest_item(n(A,L,R) ,Largest):-
+    find_largest_item(n(A,L,R),A,Largest).
+find_largest_item([],Largest,Largest).
+find_largest_item(n(A,[],[]), Acc, Largest):-
+    (Acc >= A -> Largest = Acc ; Largest = A).
+find_largest_item(n(A,L,R), Acc, Largest):-
+    (Acc >= A -> NewAcc = Acc ; NewAcc = A),
+    find_largest_item(L, NewAcc, LLarge),
+    find_largest_item(R, NewAcc, RLarge),
+    (LLarge >= RLarge -> Largest = LLarge ; Largest = RLarge).
+
+% find largest item, then duplicate tree with it
+%   we can find highest, and duplicate the tree with a hole in it
+%   then fill it with the hole
+% page 66 exercise in clause & effect
+foo(n(A,L,R),NewTree):-
+    foo(n(A,L,R),A,Largest,Largest,NewTree).
+foo([],Largest,_,Largest,[]).
+%foo(n(A,[],[]),Acc,Hole,Largest, n(Hole,[],[])):-
+%    (Acc >= A -> Largest = Acc ; Largest = A).
+foo(n(A,L,R), Acc, Hole,Largest, n(Hole,LT,RT)):-
+    (Acc >= A -> NewAcc = Acc ; NewAcc = A),
+    foo(L, NewAcc, Hole,LLarge, LT),
+    foo(R, NewAcc, Hole,RLarge, RT),
+    (LLarge > RLarge -> Largest = LLarge ; Largest = RLarge).
+
 
 test(Z):-
     build_ot([16,17,14,15,20,10,9,8], X), 
