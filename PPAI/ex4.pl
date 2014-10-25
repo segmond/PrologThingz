@@ -116,3 +116,17 @@ donald3([D,O,N,A,L,G,E,R,B,T]):-
     TmpB is (N + R + (TmpE // 10)), B is TmpB mod 10,
     TmpO is (O + E + (TmpB // 10)), O is TmpO mod 10,
     R is (D + G + (TmpO // 10)).
+
+% exercise 4.4
+% puzzle(Letters, List1, List2, List3)
+puzzle(Letters, L1, L2, L3):-
+    reverse(L1,R1), reverse(L2,R2), reverse(L3,R3),
+    assign([0,1,2,3,4,5,6,7,8,9],Letters),
+    puzzle_aux(Letters,R1,R2,R3,0).
+
+puzzle_aux(Letters, [E1],[E2],[E3],Carry):-
+    E3 is (E1 + E2 + (Carry // 10)).
+puzzle_aux(Letters,[H1|TL1],[H2|TL2],[H3|TL3],Carry):-
+    TmpV is (H1 + H2 + (Carry // 10)),
+    H3 is TmpV mod 10,
+    puzzle_aux(Letters,TL1,TL2,TL3,TmpV).
