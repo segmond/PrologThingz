@@ -125,6 +125,7 @@ app(A-B,C-D,A-D):-
 % rotation revisited
 myrot1([H|T],X-Y):-
     app(T-L2,L2-H,X-Y).    
+
 rot1([A|B]-X,Res-Z):-
     app(B-X,[A|W]-W,Res-Z).
 
