@@ -122,11 +122,28 @@ donald3([D,O,N,A,L,G,E,R,B,T]):-
 puzzle(Letters, L1, L2, L3):-
     reverse(L1,R1), reverse(L2,R2), reverse(L3,R3),
     assign([0,1,2,3,4,5,6,7,8,9],Letters),
-    puzzle_aux(Letters,R1,R2,R3,0).
+    puzzle_aux(R1,R2,R3,0).
 
-puzzle_aux(Letters, [E1],[E2],[E3],Carry):-
+puzzle_aux([E1],[E2],[E3],Carry):-
     E3 is (E1 + E2 + (Carry // 10)).
-puzzle_aux(Letters,[H1|TL1],[H2|TL2],[H3|TL3],Carry):-
+puzzle_aux([H1|TL1],[H2|TL2],[H3|TL3],Carry):-
     TmpV is (H1 + H2 + (Carry // 10)),
     H3 is TmpV mod 10,
-    puzzle_aux(Letters,TL1,TL2,TL3,TmpV).
+    puzzle_aux(TL1,TL2,TL3,TmpV).
+
+% eight-queens problem
+% solution(Pos)
+solution([]).
+solution([X/Y | Others]):-
+    solution(Others),
+    member(Y,[1,2,3,4,5,6,7,8]),
+    noattack(X/Y,Others).
+
+noattack(_/_,[]).
+noattack(X/Y,[X1/Y1 | Others]):-
+    Y =\= Y1,
+    Y1 - Y =\=  X1 - X,
+    Y1 - Y =\=  X - X1,
+    noattack(X/Y, Others).
+
+template([1/Y1,2/Y2,3/Y3,4/Y4,5/Y5,6/Y6,7/Y7,8/Y8]).
