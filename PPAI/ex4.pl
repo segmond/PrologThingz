@@ -131,3 +131,27 @@ puzzle_aux([H1|TL1],[H2|TL2],[H3|TL3],Carry):-
     H3 is TmpV mod 10,
     puzzle_aux(TL1,TL2,TL3,TmpV).
 
+
+% exercise 4.6
+% square is X/Y
+% jump(Square1,Square2).
+knightjump_aux(X/Y, X1/Y1):-
+    abs(X - X1) =:= 1,
+    abs(Y - Y1) =:= 2.
+knightjump_aux(X/Y, X1/Y1):-
+    abs(X - X1) =:= 2,
+    abs(Y - Y1) =:= 1.
+
+knightjump(X/Y, X1/Y1):-
+    findall(A,between(1,8,A),XYDomain), 
+    assign(XYDomain,[X1,Y1]),
+    knightjump_aux(X/Y, X1/Y1).
+
+
+% find path of a knight
+knightpathN(0,X/Y,[X/Y]).
+knightpathN(N, X/Y, [X/Y|Path]):-
+    N > 0,
+    knightjump(X/Y, Square),
+    NewN is N-1,
+    knightpathN(NewN,Square,Path).
