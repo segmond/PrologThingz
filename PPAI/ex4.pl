@@ -155,3 +155,7 @@ knightpathN(N, X/Y, [X/Y|Path]):-
     knightjump(X/Y, Square),
     NewN is N-1,
     knightpathN(NewN,Square,Path).
+
+% ie, find knight that starts at 2/1, stops at 5/4 on second move and ends on
+% any 8th row in 4 moves
+% Path = [2/1, _, 5/4, _, _/8], knightpathN(4,2/1/,Path).
