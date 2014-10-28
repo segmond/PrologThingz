@@ -159,3 +159,15 @@ knightpathN(N, X/Y, [X/Y|Path]):-
 % ie, find knight that starts at 2/1, stops at 5/4 on second move and ends on
 % any 8th row in 4 moves
 % Path = [2/1, _, 5/4, _, _/8], knightpathN(4,2/1/,Path).
+
+% tour the board, a very naive implementation
+knighttour(X/Y, TourPath):-
+    knighttour_aux(63, X/Y, [X/Y], TourPath).
+
+knighttour_aux(0,X/Y, Acc, Acc).
+knighttour_aux(N, X/Y, Acc, Path):-
+    N > 0,
+    knightjump(X/Y, Square),
+    \+ member(Square, Acc),
+    NewN is N-1,
+    knighttour_aux(NewN,Square,[Square|Acc],Path).
