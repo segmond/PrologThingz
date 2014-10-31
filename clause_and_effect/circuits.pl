@@ -73,3 +73,93 @@ three_sub(A0,A1,A2,B0,B1,B2, D0,D1,D2,T2):-
     full_sub(A1,B1,T0,D1,T1),
     full_sub(A2,B2,T1,D2,T2).
 
+
+% convert an expression X into a DeMorganized form Y
+%   in which the scope of negations has been minimized.
+dm(0, 0).
+
+dm(1, 1).
+
+dm(-(-A), B):-
+    dm(A, B).
+
+dm(-(A+B), U*V):-
+    dm(-A, U), 
+    dm(-B, V).
+
+dm(-(A*B), U+V):-
+    dm(-A, U), 
+    dm(-B, V).
+
+dm(A+B, U+V):-
+    dm(A, U), 
+    dm(B, V).
+
+dm(A*B, U*V):-
+    dm(A, U), 
+    dm(B, V).
+
+dm(-A, -(A)).
+dm(X, X).
+
+test_dm(L,X):-
+    L = -(a*b)+a*(-(b+c)),
+    dm(L,X).
+
+
+% convert the demorganized form into (sums of product) SOP standard form
+sop(P*Q, R):-
+    sop(P, P1),
+    sop(Q, Q1),
+    dist(P1*Q1, R).
+
+sop(P+Q, P1+Q1):-
+    sop(P, P1),
+    sop(Q, Q1).
+
+sop(X, X).
+
+dist((P+Q)*R, P1+Q1):-
+    sop(P*R, P1),
+    sop(Q*R, Q1).
+
+dist(P*(Q+R), Q1+R1 ):-
+    sop(P*Q, Q1),
+    sop(P*R, R1).
+
+dist(P, P).
+
+test_sop(L,A,B):-
+    L = (a+b)*(-a+b),
+    dm(L,A),
+    sop(A,B).
+
+% we can convert SOP expression a*b+(-a)*c+b*c into [[a,b], [-a,c], [b,c]].
+% to do so, we flatten the sum tree into a list, and gather up the products into a list which they are found
+flat(A+(B+C),U):-
+    !,
+    flat((A+B)+C,U).
+
+flat(A+B, L1-L3):-
+    !,
+    flat(A,L1-L2),
+    flat(B,L2-L3).
+
+flat(A, [B|Q]-Q):-
+    setfactors(A, [], B).
+
+setfactors(A*B, Acc, L):-
+    !,
+    setfactors(A, Acc, A1),
+    setfactors(B, A1, L).
+
+setfactors(A, L, [A|L]):-
+    %notin(A,L),
+    \+ member(A,L),
+    !.
+
+setfactors(A, L, L).
+
+test_flat(L,F):-
+    test_sop(L,A,B),
+    flat(B,F-[]).
