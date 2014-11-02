@@ -1,3 +1,4 @@
+:-op(950, xfy, &).
 :-op(700, xfx, iss).
 :-op(150, xf, !).
 
@@ -33,3 +34,7 @@ addArg(Predicate, Term, Res):-
     Predicate =.. Terms,
     append(Terms, [Term], NewTerms),
     Res =.. NewTerms.
+
+
+GoalA & GoalB :-
+    call(GoalA), call(GoalB).
