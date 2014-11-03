@@ -24,3 +24,23 @@ related_synset(A,B, Word):-
     hyp(S1, S),
     hyp(S2, S),
     s(S, _, Word, _, _, _).
+
+% relation Syn1 and Syn2 are in relation Rel, in direction from S1 to S2.
+r0(Syn1, Syn2, rel(Rel, S1, S2):-
+    (
+        S1 = Syn1,  % Choose first and second arg of relation between Syn1 and Syn2
+        S2 = Syn2
+    ;
+        S1 = Syn2,
+        S2 = Syn1
+    ),
+    (
+        hyp(S1, S2),    % Check hyp relation
+        Rel = hyp
+    ;
+        mm(S1, S2),     % Check mm relation
+        Rel = hyp
+    ;
+        mp(S1, S2),     % Check mp relation
+        Rel = mp
+    ).
