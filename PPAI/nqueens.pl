@@ -24,7 +24,25 @@ noattack(X/Y,[X1/Y1 | Others]):-
     Y1 - Y =\=  X - X1,
     noattack(X/Y, Others).
 
+% above solution modified to use negation as failure
+solution4([]).
+solution4([X/Y | Others]):-
+    solution4(Others),
+    member(Y,[1,2,3,4,5,6,7,8]),
+    \+ attack(X/Y,Others).
+
+attack(X/Y, Others):-
+    member(X1/Y1, Others),
+    (
+    Y1 = Y;
+    Y1 is Y + X1 - X;
+    Y1 is Y - X1 + X
+    ).
+
 template([1/Y1,2/Y2,3/Y3,4/Y4,5/Y5,6/Y6,7/Y7,8/Y8]).
+
+test_solution4(Sol):-
+    template(Sol), solution(Sol).
 
 % solution 2
 % represent the board using only Y-coordinates
@@ -36,14 +54,14 @@ solution2(S):-
 safe([]).
 safe([Queen|Others]):-
     safe(Others),
-    noattack(Queen,Others,1).
+    noattack2(Queen,Others,1).
 
-noattack(_,[],_).
-noattack(Y,[Y1| Others],Xdistance):-
+noattack2(_,[],_).
+noattack2(Y,[Y1| Others],Xdistance):-
     Y1 - Y =\=  Xdistance, % not upward diagonal attack
     Y - Y1 =\=  Xdistance, % not downward diagonal attack
     NewDist is Xdistance+1,
-    noattack(Y, Others, NewDist).
+    noattack2(Y, Others, NewDist).
 
 % solution3(S)
 solution3(Ylist):-

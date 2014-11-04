@@ -54,3 +54,15 @@ mynot(P):-
 likes2(mary, X):-
     animal(X),
     mynot(snake(X)).
+
+% exercise 5.5
+% set_difference(Set1, Set2, SetDifference)
+set_difference([H1|S1], S2, [H1|D]):-
+    \+ member(H1, S2),
+    set_difference(S1,S2,D).
+
+% H1 is a member of S2
+set_difference([H1|S1], S2, D):-
+    set_difference(S1,S2,D).
+
+set_difference([],_,[]).
