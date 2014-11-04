@@ -25,3 +25,32 @@ class(P, sportsman):-
 p(1).
 p(2):-!.
 p(3).
+
+animal(dog).
+animal(cat).
+snake(snake).
+
+%Negation as failure
+
+% mary likes all animals but snakes
+% we can't backtrack this
+likes(mary, X):-
+    snake(X), !,  fail
+    ; 
+    animal(X).
+
+different(X, Y):-
+    X \= Y, !, fail
+    ;
+    true.
+
+% only applies to closed world assumption
+mynot(P):-
+    P, !, fail
+    ; 
+    true.
+
+% backtrackable
+likes2(mary, X):-
+    animal(X),
+    mynot(snake(X)).
