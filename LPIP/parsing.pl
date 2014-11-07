@@ -1,13 +1,13 @@
 % DCG
-sentence --> noun_phrase(_), compound_verb(both), noun_phrase(_).
-sentence --> noun_phrase(_), compound_verb(both).
+sentence([s1,both,NP1,NP2]) --> noun_phrase(NP1,_), compound_verb(both), noun_phrase(NP2,_).
+sentence([s2,both,NP1]) --> noun_phrase(NP1,_), compound_verb(both).
 
-sentence --> noun_phrase(Plurality), compound_verb(Plurality), noun_phrase(_).
-sentence --> noun_phrase(Plurality), compound_verb(Plurality).
+sentence([s3,Plurality,NP1,NP2]) --> noun_phrase(NP1,Plurality), compound_verb(Plurality), noun_phrase(NP2,_).
+sentence([s4,Plurality,NP1]) --> noun_phrase(NP1,Plurality), compound_verb(Plurality).
 
-noun_phrase(Plurality) --> determiner, adjective_sequence, noun(Plurality).
-noun_phrase(Plurality) --> determiner, noun(Plurality).
-noun_phrase(Plurality) --> noun(Plurality).
+noun_phrase(np1,Plurality) --> determiner, adjective_sequence, noun(Plurality).
+noun_phrase(np2,Plurality) --> determiner, noun(Plurality).
+noun_phrase(np3,Plurality) --> noun(Plurality).
 
 compound_verb(Plurality) -->  auxiliary_verb, verb(Plurality).
 compound_verb(Plurality) -->  verb(Plurality).
@@ -32,59 +32,49 @@ determiner --> [the].
 determiner --> [a].
 determiner --> [an].
 
-noun(singular) --> [cat].
-noun(singular) --> [mat].
-noun(singular) --> [man].
-noun(singular) --> [boy].
-noun(singular) --> [dog].
+noun(singular) --> [X],
+    {member(X, [cat, mat, man, boy, dog])}.
 
-noun(plural) --> [cats].
-noun(plural) --> [mats].
-noun(plural) --> [men].
-noun(plural) --> [boys].
-noun(plural) --> [dogs].
-
-/*
-adjective --> [X], {adjective_is(X)}.
-adjective_is(large).
-adjective --> [brown].
-...
-*/
+noun(plural) --> [X],
+    {member(X, [cats, mats, men, boys, dogs])}.
 
 % we can enclose regular prolog in braces { }
 adjective --> [X], 
     {member(X, [large, small, brown, orange, green, blue])}.
+adjective --> [white].
 
-% sentence, noun_phrase, verb, etc are syntactic terms
+% sentence(SentenceType), noun_phrase, verb, etc are syntactic terms
 % everything in a bracket is a terminal
 
 test1:-
-    phrase(sentence, [the, cat, saw, the, mat]).
+    phrase(sentence(SentenceType), [the, cat, saw, the, mat]).
 
 test2:-
-    phrase(sentence, [whatever, cat, saw, the, mat]).
+    phrase(sentence(SentenceType), [whatever, cat, saw, the, mat]).
 
 test3:-
     S = [the, cat, saw, the, X],
-    findall(X, phrase(sentence, S), L),
+    findall(X, phrase(sentence(SentenceType), S), L),
     writeln(S),
     writeln(L).
 
 test4:-
-    phrase(sentence, [the, man, will, see, the, mat]).
+    phrase(sentence(SentenceType), [the, man, will, see, the, mat]).
 
 test5:-
-    phrase(sentence, [the, blue, cat, saw, the, large, man]).
+    phrase(sentence(SentenceType), [the, blue, cat, saw, the, large, man]).
 
 test6:-
-    phrase(sentence, [the, large, man, saw, the, small, brown, orange, dog]).
+    phrase(sentence(SentenceType), [the, large, man, saw, the, small, brown, orange, dog]).
 
 test7:-
-    phrase(sentence, [the, small, green, man, sees, a, large, dog]).
+    phrase(sentence(SentenceType), [the, small, green, man, sees, a, large, dog]).
 
 test8:- % will fail
-    phrase(sentence, [the, small, green, men, sees, a, large, dog]).
+    phrase(sentence(SentenceType), [the, small, green, men, sees, a, large, dog]).
 
 test9:-
-    phrase(sentence, [the, small, green, men, saw, a, large, dog]).
+    phrase(sentence(SentenceType), [the, small, green, men, saw, a, large, dog]).
 
+test10:-
+    phrase(sentence(S), [the, small, green, man, saw, the, dog]).
