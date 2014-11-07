@@ -44,12 +44,16 @@ noun(plural) --> [men].
 noun(plural) --> [boys].
 noun(plural) --> [dogs].
 
-adjective --> [large].
-adjective --> [small].
+/*
+adjective --> [X], {adjective_is(X)}.
+adjective_is(large).
 adjective --> [brown].
-adjective --> [orange].
-adjective --> [green].
-adjective --> [blue].
+...
+*/
+
+% we can enclose regular prolog in braces { }
+adjective --> [X], 
+    {member(X, [large, small, brown, orange, green, blue])}.
 
 % sentence, noun_phrase, verb, etc are syntactic terms
 % everything in a bracket is a terminal
@@ -74,7 +78,6 @@ test5:-
 
 test6:-
     phrase(sentence, [the, large, man, saw, the, small, brown, orange, dog]).
-
 
 test7:-
     phrase(sentence, [the, small, green, man, sees, a, large, dog]).
