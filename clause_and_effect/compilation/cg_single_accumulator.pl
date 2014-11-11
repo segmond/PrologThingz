@@ -40,6 +40,27 @@ cg(X*Y, T, [CX, sta(t(T)), CY, mul(t(T))]):-
 	T1 is T + 1,
 	cg(Y, T1, CY).
 
+cg(while(X, S), T, [label(L1), CX, SX, br(L1), label(L2)]):-
+	ct(X, T, CX, L2),
+	cg(S, T, SX).
+
+cg((A; B), T, [CA, CB]):-
+	cg(A, T, CA),
+	cg(B, T, CB).
+
+cg(assign(A,X), T, [CX, sta(A)]):-
+	cg(X, T, CX).
+
+ct(X<A, T, [CX, cmp(A), bge(R)], R):-
+	atom(A),
+	cg(X, T, CX).
+
+ct(X<Y, T, [CY, sta(t(T)), CX, cmp(t(T)), bge(L)], L):-
+	cg(Y, T, CY),
+	T1 is T + 1,
+	cg(X, T1, CX).
+
+
 
 flatten_code([], Z-Z).
 flatten_code([H|T], HF-TFE):-
@@ -56,7 +77,10 @@ compile(N):-
 	program(N, Program),
 	cg(Program, 1, AsmCode-[]),
 	print_code(AsmCode).
-
+test1:-
+	cg(while((c < n), (assign(z, 2 + 7); assign(y, 3))), 1, X),
+	flatten_code(X, Y-[]),
+	print_code(Y).
 
 
 
