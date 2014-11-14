@@ -1,4 +1,16 @@
-readlineF(File):-
+% read file, line by line
+readlineF(File, OutFile):-
+	see(File),
+	tell(OutFile),
+	repeat,
+	inputline(L),
+	L=[end_of_file],
+	!,
+	told,
+	seen.
+
+% read file, line by line
+readlineF2(File):-
 	see(File),
 	repeat,
 	inputline(L),
@@ -6,12 +18,15 @@ readlineF(File):-
 	!,
 	seen.
 
+
+% read line, building a list, list comes in reverse order so reverse it.
 inputline(L):-
 	buildlist(L, []),
 	reverse(L,L1),
-	writeout(L1),
+	filewriteout(L1),
 	!.
 
+% write list for display
 writeout([]).
 writeout([end_of_file]).
 writeout(L):-
@@ -19,6 +34,16 @@ writeout(L):-
 	write(L),
 	nl.
 
+% write list for writing to file
+filewriteout([]).
+filewriteout([end_of_file]).
+filewriteout(L):-
+	writeq(L),
+	write('.'),
+	nl.
+
+
+% get's one word at a time, building list until a sentence is constructed
 buildlist(L, OldL):-
 	findword(Word, []),
 	(
@@ -29,6 +54,7 @@ buildlist(L, OldL):-
 	    (name(S,Word), buildlist(L, [S|OldL]))
 	).
 
+% find a word
 findword(Word, OldWord):-
 	get0(X1),
 	repchar(X1,X),
@@ -39,6 +65,7 @@ findword(Word, OldWord):-
 	    (append(OldWord,[X],New), findword(Word,New))
 	).
 
+% replace upper to lower
 repchar(X, New):-
 	X >= 65,
 	X =< 90,
@@ -56,6 +83,6 @@ terminator(33).
 terminator(63).
 
 test:-
-	readlineF('dickens.txt').
+	readlineF('dickens.txt', 'newdickens.txt').
 
 

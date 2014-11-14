@@ -1,0 +1,6 @@
+[the,large,green,men,see,a,small,blue,dog].
+[the,large,green,men,will_see,a,small,blue,dog].
+[the,man].
+[the,green,small,men,see,a,blue,dog].
+[the,green,small,men,took,a,blue,dog].
+[the,green,small,man,sees].

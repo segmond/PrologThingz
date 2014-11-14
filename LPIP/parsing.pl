@@ -2,8 +2,8 @@
 sentence([s1,both,NP1,NP2]) --> noun_phrase(NP1,_), compound_verb(both), noun_phrase(NP2,_).
 sentence([s2,both,NP1]) --> noun_phrase(NP1,_), compound_verb(both).
 
-sentence([s3,Plurality,NP1,NP2]) --> noun_phrase(NP1,Plurality), compound_verb(Plurality), noun_phrase(NP2,_).
-sentence([s4,Plurality,NP1]) --> noun_phrase(NP1,Plurality), compound_verb(Plurality).
+sentence([s3,Plurality,NP1,NP2,adverb]) --> noun_phrase(NP1,Plurality), compound_verb(Plurality), noun_phrase(NP2,_), adverbs.
+sentence([s4,Plurality,NP1,adverb]) --> noun_phrase(NP1,Plurality), compound_verb(Plurality), adverbs.
 
 noun_phrase(np1,Plurality) --> determiner, adjective_sequence, noun(Plurality).
 noun_phrase(np2,Plurality) --> determiner, noun(Plurality).
@@ -39,12 +39,40 @@ noun(plural) --> [X],
     {member(X, [cats, mats, men, boys, dogs])}.
 
 % we can enclose regular prolog in braces { }
-adjective --> [X], 
+adjective --> [X],
     {member(X, [large, small, brown, orange, green, blue])}.
 adjective --> [white].
 
+adverbs --> [X],
+	{member(X, [well, badly, quickly, slowly])}.
+
 % sentence(SentenceType), noun_phrase, verb, etc are syntactic terms
 % everything in a bracket is a terminal
+
+process(File):-
+	see(File),
+	repeat,
+	read(S),
+	proc(S),
+	S=end_of_file,
+	!,
+	seen.
+
+proc(end_of_file).
+proc(S):-
+	write('Sentence: '),
+	writeln(S),
+	proc2(S).
+
+proc2(S):-
+	phrase(sentence(L1), S),
+	write('Structure: '),
+	writeln(L1),
+	nl,
+	!.
+proc2(S):-
+	writeln('Invalid sentence strucutre'),
+	nl.
 
 test1:-
     phrase(sentence(SentenceType), [the, cat, saw, the, mat]).
