@@ -30,13 +30,21 @@ buildlist(L, OldL):-
 	).
 
 findword(Word, OldWord):-
-	get0(X),
+	get0(X1),
+	repchar(X1,X),
 	(
 	    (terminator(X), Word=[term|OldWord]);
 	    (separator(X), ((OldWord=[], Word=[sep]); Word = OldWord));
 	    (X<0, Word=[end_of_file]);
 	    (append(OldWord,[X],New), findword(Word,New))
 	).
+
+repchar(X, New):-
+	X >= 65,
+	X =< 90,
+	New is X+32,
+	!.
+repchar(Char, Char).
 
 separator(10).
 separator(32).
