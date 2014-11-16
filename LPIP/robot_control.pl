@@ -98,6 +98,30 @@ report:-
 round2dp(X, Y):-
 	Y is round(X*100) / 100.
 
+goto(North, north, East, east):-
+	retract(position(_,_)),
+	assertz(position(North, East)),
+	format("** New Position is ~w meters North and ~w meters East~n", [North, East]).
+
+back(N, meters):-
+	turn(180, degrees, anticlockwise),
+	forward(N, meters).
+
+forward(N, meters):-
+	retract(position(North, East)),
+	orientation(Degrees),
+	radians(Degrees, Rads),
+	North1 is North + N * sin(Rads),
+	East1 is East + N * cos(Rads),
+	assertz(position(North1, East1)),
+	round2dp(North1, North2),
+	round2dp(East1, East2),
+	format("** New Position is ~w meters North and ~w meters East~n", [North2, East2]).
+
+radians(N, M):-
+	M is (3.14159265) * N / 180. % N degrees converted to N radians (pi radians = 180 degrees)
+
+
 
 
 
