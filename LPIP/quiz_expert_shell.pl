@@ -59,7 +59,7 @@ readline_aux(Lcurrent, Lfinal):-
 
 read_string_line(S):-
     current_input(Input),
-    read_string(Input, "\n", "\r", End, S).
+    read_string(Input, "\n", "\r", _, S).
 
 runquiz:-
     retractall(myscore(_,_)),
@@ -73,11 +73,16 @@ askq:-
     writeln(Qtext),
     write('Possible answers are '),
     genanswers(Anslist),
+    requestanswer(Anslist, Maxscore),
     fail.
 
 askq:-
-    foo,
-    .
+    myscore(M, Maxtotal),
+    format("Your total score is ~w points out of a possible ~w~n", [M, Maxtotal]),
+    range(First, Last, Feedback),
+    M >= First,
+    M =< Last,
+    format("~w~n~n~n", [Feedback]).
 
 genanswers([ans(A,_)]):-
     format('and ~w~n', [A]),
@@ -86,3 +91,21 @@ genanswers([ans(A,_)]):-
 genanswers([ans(A,_)|T]):-
     format('~w, ', [A]),
     genanswers(T).
+
+requestanswer(Anslist, Maxscore):-
+    writeln('Enter your answer'),
+    readline(Answer),
+    (
+        member(ans(Answer,Score), Anslist), usescore(Score, Maxscore), 
+        !
+    ;
+        format("That is not a valid answer - try again!~n"),
+        requestanswer(Anslist, Maxscore)
+    ).
+
+usescore(Score, Maxscore):-
+    format("You have scored  ~w points out of a possible ~w~n~n", [Score, Maxscore]),
+    retract(myscore(Old, Oldtotal)),
+    New is Old+Score,
+    Newtotal is Oldtotal+Maxscore,
+    assertz(myscore(New, Newtotal)).
