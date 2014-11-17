@@ -1,13 +1,12 @@
 Reading List
 -------------------------------------------
 Past
-    learn prolog now
-    adventure in prolog
+    Learn prolog now
+    Adventure in prolog
+    Logic Programming with Prolog, Max Bramer - 257/257
 
 Current
-    Clause & Effect, Clocksin - 111/140
-    Logic Programming with Prolog, Max Bramer - 201/257
-
+    Clause & Effect, Clocksin - 112/140
     Prolog Programming In Depth - 183/500
     Programming in Prolog, Clocksin & Mellish - 30/300
     Prolog Programming for AI , Bratko - 152/645
@@ -25,6 +24,8 @@ Pending
     Expert Systems in Prolog
     Natural Language Processing For Prolog Programmers
     AI Algorithms, Data Structures and Idioms in Prolog, Lisp and Java
+    ... plus a thousand more
+
 Wish List/Maybes
     Prolog by Example - Coelho & Cotta
     From Logic Programming to Prolog
@@ -36,5 +37,6 @@ Wish List/Maybes
     The Practice of Prolog
     AI Through Prolog
     Functional Grammar in Prolog
+
 Links
     http://www.logic.at/prolog/
