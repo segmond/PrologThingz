@@ -56,3 +56,35 @@ eval(callout@[Op, X, Y], Z):-
     eval(Y, Y1),
     callout(Op, X1, Y1, Z),
     !.
+
+eval(if@[C,X,Y], Z):-
+    eval(C, C1),
+    auxif(C1, X, Y, A),
+    eval(A, Z),
+    !.
+
+auxif(true, X,_,X).
+auxif(false, _,X,X).
+
+eval(F, Lx):-
+    atom(F),
+    fun(F@X, Y),
+    make_lambda(X, Y, Lx).
+
+make_lambda([], Y, Y).
+make_lambda([X|Xs], Y, lambda(X,Z)):-
+    make_lambda(Xs, Y, Z).
+
+eval(Fx@[A], Z):-
+    eval(Fx, Lx),
+    eval(A, A1),
+    copy_term(Lx, lambda(A1, Y)),
+    eval(Y, Z),
+    !.
+
+eval(Fx@[A|As], Z):-
+    eval(Fx, Lx),
+    eval(A, A1),
+    copy_term(Lx, lambda(A1, Y)),
+    eval(Y@As, Z),
+    !.
