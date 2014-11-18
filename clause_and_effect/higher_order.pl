@@ -5,6 +5,7 @@
 % f@[x,y] is equivalent to f@[x]@[y] - currying
 % fun(X,Y) - function named X having the definition Y
 % if@[X,Y,Z] - if then else condition
+% eval(X,Y) - eval expression X to determine result Y
 
 fun(inc@[X], sum@[X,1]).
 fun(hd@[[X|_]],X).
@@ -31,3 +32,27 @@ fun(map@[F,L],
         ]
     ).
 
+% fun(inc@[X], sum@[X,1]) = var(inc, lambda(X, sum@[X,1]))
+% fun(plus@[X,Y], sum@[X,1]) = var(plus, lambda(X, lambda(Y, sum@[X,1])))
+% plus@[X,Y] = plus@[3]@[4].
+
+
+% Builtins
+fun(sum@[X,Y], callout@[sum,X,Y]).
+fun(difference@[X,Y], callout@[difference,X,Y]).
+fun(product@[X,Y], callout@[product,X,Y]).
+fun(equal@[X,Y], callout@[equal,X,Y]).
+
+callout(sum, X, Y, Z):- Z is X+Y.
+callout(difference, X, Y, Z):- Z is X-Y.
+callout(product, X, Y, Z):- Z is X*Y.
+callout(equal, X, X, true):- !.
+callout(equal, _, _, false):- !.
+
+% The Evaluator
+
+eval(callout@[Op, X, Y], Z):-
+    eval(X, X1),
+    eval(Y, Y1),
+    callout(Op, X1, Y1, Z),
+    !.
