@@ -8,6 +8,7 @@
 % eval(X,Y) - eval expression X to determine result Y
 
 fun(inc@[X], sum@[X,1]).
+fun(myinc, plus@[1]).
 fun(hd@[[X|_]],X).
 fun(tl@[[_|T]],T).
 
@@ -32,6 +33,27 @@ fun(map@[F,L],
         ]
     ).
 
+
+fun(foldl@[F, A, L],
+    if@[    equal@[L, []],
+            A,
+            fold@[F, F@[A, hd@[L]], tl@[L]]
+        ]
+    ).
+
+fun(foldr@[F, A, L],
+    if@[    equal@[L, []],
+            A,
+            F@[hd@[L]], foldr@[F, A, tl@[L]]
+        ]
+    ).
+
+fun(fold@[F, L],
+    if@[    equal@[L, [A]],
+            A,
+            F@[hd@[L]], foldr@[F, tl@[L]]
+        ]
+    ).
 % fun(inc@[X], sum@[X,1]) = var(inc, lambda(X, sum@[X,1]))
 % fun(plus@[X,Y], sum@[X,1]) = var(plus, lambda(X, lambda(Y, sum@[X,1])))
 % plus@[X,Y] = plus@[3]@[4].
@@ -50,6 +72,12 @@ callout(equal, X, X, true):- !.
 callout(equal, _, _, false):- !.
 
 % The Evaluator
+auxif(true, X,_,X).
+auxif(false, _,X,X).
+
+make_lambda([], Y, Y).
+make_lambda([X|Xs], Y, lambda(X,Z)):-
+    make_lambda(Xs, Y, Z).
 
 eval(callout@[Op, X, Y], Z):-
     eval(X, X1),
@@ -63,17 +91,12 @@ eval(if@[C,X,Y], Z):-
     eval(A, Z),
     !.
 
-auxif(true, X,_,X).
-auxif(false, _,X,X).
 
 eval(F, Lx):-
     atom(F),
     fun(F@X, Y),
     make_lambda(X, Y, Lx).
 
-make_lambda([], Y, Y).
-make_lambda([X|Xs], Y, lambda(X,Z)):-
-    make_lambda(Xs, Y, Z).
 
 eval(Fx@[A], Z):-
     eval(Fx, Lx),
@@ -104,3 +127,31 @@ eval((X,Xs), (Y,Ys)):-
     !.
 
 eval(X, X).
+
+
+/*
+ * Usage
+ *
+
+?- fun(inc@[7], X), eval(X, R).
+X = sum@[7, 1],
+R = 8 .
+
+?-  fun(sum@[6,1], X), eval(X, R).
+X = callout@[sum, 6, 1],
+R = 7 .
+
+
+?- fun(myinc, X).
+X = plus@[1].
+
+?- fun(myinc, X), eval(X@[5], R).
+X = plus@[1],
+R = plus@[1]@[5].
+
+// broken, plus@[1]@[5] should turn into plus@[1,5] then into 6
+?- fun(myinc, X), eval(X@[5], R), eval(R, R2).
+X = plus@[1],
+R = R2, R2 = plus@[1]@[5].
+
+*/
