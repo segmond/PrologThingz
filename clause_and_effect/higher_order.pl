@@ -88,3 +88,19 @@ eval(Fx@[A|As], Z):-
     copy_term(Lx, lambda(A1, Y)),
     eval(Y@As, Z),
     !.
+
+eval(C@L, C@L1):-
+    eval(L, L1),
+    !.
+
+eval([X|Xs], [Y|Ys]):-
+    eval(X, Y),
+    eval(Xs, Ys),
+    !.
+
+eval((X,Xs), (Y,Ys)):-
+    eval(X, Y),
+    eval(Xs, Ys),
+    !.
+
+eval(X, X).
