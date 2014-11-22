@@ -6,13 +6,21 @@ interpret((GoalA, GoalB)):- !,
     interpret(GoalA),
     interpret(GoalB).
 
-interpret(Goal):-
-    clause(Goal, Body),
+interpret(not(Goal)):- !,
+    not(clause(Goal, Body)),
     interpret(Body).
+
+interpret(Goal):-
+    (
+        clause(Goal, Body) ; call(Goal)
+    ),
+    interpret(Body).
+
 
 % test KB
 :-dynamic(dog/1).
 dog(fido).
+dog(bob).
 
 cat(felix).
 
