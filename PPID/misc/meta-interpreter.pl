@@ -11,11 +11,11 @@ interpret(not(Goal)):- !,
     interpret(Body).
 
 interpret(Goal):-
-    (
-        clause(Goal, Body) ; call(Goal)
-    ),
-    interpret(Body).
-
+    catch(
+            (clause(Goal, Body), interpret(Body)), 
+            Error,
+            call(Goal)
+          ).
 
 % test KB
 :-dynamic(dog/1).
