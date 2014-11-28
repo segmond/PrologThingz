@@ -127,10 +127,36 @@ testcg2(Code):-
 
 print_code([]).
 print_code([H|T]):-
-	writeln(H),
+    (
+        H = label(_), writeln(H);
+        write('    '), writeln(H)
+    ),
 	print_code(T).
 
 compile(N):-
 	program(N, Program),
 	cg(Program, 1, AsmCode-[]),
 	print_code(AsmCode).
+
+/*
+?- compile(1).
+    movc(1,r(1))
+    stm(r(1),c)
+    movc(1,r(1))
+    stm(r(1),r)
+label(_G3638)
+    movm(c,r(1))
+    movm(n,r(2))
+    cmp(1,2)
+    bge(1)
+    movm(c,r(1))
+    movc(1,r(2))
+    add(r(2),r(1))
+    stm(r(1),c)
+    movm(r,r(1))
+    movm(c,r(2))
+    mul(r(2),r(1))
+    stm(r(1),r)
+    br(_G3638)
+label(1)
+*/
