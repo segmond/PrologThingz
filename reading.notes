@@ -5,14 +5,20 @@ Past
     Adventure in prolog
     Logic Programming with Prolog, Max Bramer - 257/257
     Clause & Effect, Clocksin - 140/140
+    Efficient Prolog - A Practical Guide
+    Efficient Prolog Programming
+    Prolog The Language Compared With Lisp
+
+
+ToBeContinued
 
 Current
-    Prolog Programming In Depth - 183/500
-    Programming in Prolog, Clocksin & Mellish - 30/300
+    Prolog Programming In Depth - 186/500
     Prolog Programming for AI , Bratko - 152/645
+    Programming in Prolog, Clocksin & Mellish - 30/300
+    The Art Of Prolog, Sterling & Shapiro - 3/480
 
 Pending
-    Art Of Prolog, Sterling & Shapiro - 0/480
     Craft Of Prolog, O'Keefe - 0/400
     Simply Logical - 0/332
     Logic For Problem Solving - 0/246
@@ -24,9 +30,26 @@ Pending
     Expert Systems in Prolog
     Natural Language Processing For Prolog Programmers
     AI Algorithms, Data Structures and Idioms in Prolog, Lisp and Java
+    Algorithmics - The spirit of computing
+    AI - A modern Approach
+    Coding Guidelines For Prolog
+    Improving Prolog Programs - Refactoring For Prolog
+    Machine Learning, Meta Reasoning and Logics
+    Negation as Failure
+    Negation and Control In Prolog
+    Paradigms of AI Programming
+    Prolog for Software Engineers
+    Representing Knowledge In Prolog
+    The Algebra of Programming
+    The Science Of Programming
+    The Birth Of Prolog
+    The Wonder Years of Sequential Prolog Implementation
+    WAM Book
     ... plus a thousand more
 
 Wish List/Maybes
+    A Logical Approach To Discrete Math
+    Advanced Prolog Techniques & Examples
     Prolog by Example - Coelho & Cotta
     From Logic Programming to Prolog
     Applications of Prolog
@@ -36,7 +59,26 @@ Wish List/Maybes
     Prolog Techniques Applications of Prolog
     The Practice of Prolog
     AI Through Prolog
+    AI techniques in Prolog
     Functional Grammar in Prolog
+    Computing iwth Logic 
+    Functional GRammer In Prolog
+    Intelligence Image Processing in Prolog
+    Logic For Problem Sovling
+    Logic Programming and Prolog
+    Problem Solving with Prolog
+    Productive Prolog Programming
+    Prolog and it's Applications - A Japanese Perspective
+    Prolog By Examples
+    Prolog for Programmers
+    Techniques of Prolog Programming
+
 
 Links
     http://www.logic.at/prolog/
+
+count_list([E], 0).
+count_list([H|T], N):-
+    count_list(T, NT),
+    add(NT,1,N).
+
