@@ -47,6 +47,15 @@ ot_delete(Item, n(Item,L,R), n(N,X,R)):-
     L = n(N,NL,NR), !,
     ot_delete(N, L, X).
 
+% are the two trees isomorphic?
+isotree([], []).
+isotree(n(X, L1, R1), n(X, L2, R2)):-
+    isotree(L1, L2), 
+    isotree(R1, R2).
+isotree(n(X, L1, R1), n(X, L2, R2)):-
+    isotree(L1, R2), 
+    isotree(R1, L2).
+
 % build our binary tree
 build_ot(L, X):-
     build_ot(L, [], X).
@@ -136,3 +145,10 @@ test2:-
     pretty_print_ot(X,0),
     ot_delete(20,X,X1), 
     pretty_print_ot(X1,0).
+
+test3:-
+    build_ot([4,2,1,3], X),
+    build_ot([4,2,3,1], X1),
+    pretty_print_ot(X,0),
+    pretty_print_ot(X1,0),
+    isotree(X, X1).
