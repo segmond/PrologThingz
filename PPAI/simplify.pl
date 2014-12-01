@@ -64,9 +64,6 @@ test:-
     simplify(c+(b+(a+1+4+2)), X),
     writeln(X).
 
-
-
-
 % ex 6.2
 add_to_tail(Item, List):-
     get_tail_var(List, TailVar),
