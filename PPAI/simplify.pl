@@ -33,6 +33,13 @@ clean_up(A, D):-
     clean_up(C, D).
     
 % remove one layer of paranethesis
+clean(X+Y, A+Z):-
+    compound(X),
+    clean(X, A+B),
+    clean(Y, YS),
+    number(B),
+    number(YS),
+    Z is B+YS.
 clean(X+Y, A+B+YS):-
     compound(X),
     clean(X, A+B),
