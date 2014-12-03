@@ -33,3 +33,10 @@ subst_symbols(Exp, [], Exp).
 subst_symbols(Exp0, [Symbol = Number | SymbolValues], Exp):-
     substitute(Symbol, Exp0, Number, Exp1), % subst Symbol by Number giving Exp1
     subst_symbols(Exp1, SymbolValues, Exp). % substitute remaining symbols
+
+test:-
+    Expr = x*sin((x+y)/2), 
+    Symbols = [x = 1, y = 2.14],
+    eval(Expr, Symbols, Val),
+    format('Expr = ~w with Symbols = ~w gives ~w~n', [Expr, Symbols, Val]).
+
