@@ -23,3 +23,9 @@ constant(X):-
 
 test:-
     polynomial(x*x-3*x+2, x).
+
+
+derivative(X, X, s(0)).
+derivative(X!s(N), X, s(N)*X!N).
+derivative(sin(X), cos(X)).
+
