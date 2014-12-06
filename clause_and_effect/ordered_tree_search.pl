@@ -152,3 +152,8 @@ test3:-
     pretty_print_ot(X,0),
     pretty_print_ot(X1,0),
     isotree(X, X1).
+
+test4:-
+    build_ot([100, 119, 118, 171, 112, 151, 132], X),
+    pretty_print_ot(X,0).
+    isotree(X, X1).

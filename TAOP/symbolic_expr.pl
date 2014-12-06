@@ -10,11 +10,11 @@ polynomial(Term1*Term2, X):-
     polynomial(Term1, X), polynomial(Term2, X).
 polynomial(Term1/Term2, X):-
     polynomial(Term1, X), constant(Term2).
-polynomial(Term!N, X):-
-    natural_number(N)), polynomial(Term, X).
+polynomial(Term^N, X):-
+    natural_number(N), polynomial(Term, X).
 
 natural_number(N):-
-    number(X),
+    number(N),
     plus(0, N, N).
 
 constant(X):-
@@ -26,10 +26,10 @@ test:-
 
 
 derivative(X, X, s(0)).
-derivative(X!s(N), X, s(N)*X!N).
+derivative(X^s(N), X, s(N)*X^N).
 derivative(sin(X), X, cos(X)).
 derivative(cos(X), X, -sin(X)).
-derivative(e!X, X, e!X).
+derivative(e^X, X, e^X).
 derivative(log(X), X, 1/X).
 
 derivative(F+G, X, DF+DG):-
@@ -42,7 +42,7 @@ derivative(F*G, X, F*DG+DF*G):-
     derivative(F, X, DF),
     derivative(G, X, DG).
 derivative(1/F, X, -DF/(F*F)):-
-    derivative(F, X, DF),
+    derivative(F, X, DF).
 derivative(F/G, X, (G*DF-F*DG)/(G*G)):-
     derivative(F, X, DF),
     derivative(G, X, DG).
