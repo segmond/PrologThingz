@@ -1,6 +1,6 @@
 % polynomial(Expression, X).
 polynomial(X, X).
-polynomial(Term, X):-
+polynomial(Term, _):-
     constant(Term).
 polynomial(Term1+Term2, X):-
     polynomial(Term1, X), polynomial(Term2, X).
@@ -46,4 +46,10 @@ derivative(1/F, X, -DF/(F*F)):-
 derivative(F/G, X, (G*DF-F*DG)/(G*G)):-
     derivative(F, X, DF),
     derivative(G, X, DG).
+derivative(U^s(N), X, s(N)*U^N*DU):-
+    derivative(U, X, DU).
+derivative(unary_term(F, U), X, DF*DU):-
+    derivative(unary_term(F, U), U, DF),
+    derivative(U, X, DU).
+
 
