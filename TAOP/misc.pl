@@ -30,3 +30,8 @@ test:-
     myfindall(Child, age(Child, Age), List1),
     findall(Child, age(Child, Age), List2),
     List1 = List2.
+
+
+spush(L,E, [E|L]).
+spop([], []).
+spop([E|T], E).
