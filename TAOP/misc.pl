@@ -32,6 +32,15 @@ test:-
     List1 = List2.
 
 
+% stack
 spush(L,E, [E|L]).
 spop([], []).
 spop([E|T], E).
+
+% quick read
+test_read:-
+    see('misc.pl'),
+    repeat,
+    read(X),
+    writeln(X),
+    X = end_of_file.
