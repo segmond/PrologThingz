@@ -40,7 +40,8 @@ spop([E|T], E).
 % quick read
 test_read:-
     see('misc.pl'),
+    tell('misc.txt'),
     repeat,
     read(X),
-    writeln(X),
+    format('~w.~n', [X]),
     X = end_of_file.
