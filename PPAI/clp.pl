@@ -1,6 +1,13 @@
 %
 :-use_module(library(clpfd)).
+:-use_module(library(clpr)).
 
+% CLP
+%   R = real numbers
+%   Z = integers
+%   Q = rational numbers
+%   B = booleans
+%   FD = user defined finite domains
 
 % convert(Var, Num) works, but convert(Num, Var) fails
 convert(Centigrade, Fahrenheit):-
@@ -41,3 +48,45 @@ test4(MinTf):-
 
 test5:-
     [Dx, Dy] ins 0..10.
+
+
+test6(X):-
+    test6a(X),
+    test6b(X),
+    test6c(X).
+
+test6a(X):-
+    X #=< 100.
+test6b(X):-
+    X #>= 20.
+test6c(X):-
+    labeling([min(X)], [X]).
+
+run_test6:-
+    Z in -100..500, test6(Z), writeln(Z).
+
+
+% clpr
+test7(X, Y):-
+    {3*X - 2*Y = 6, 2*Y = X}.
+
+test8(Z):-
+    {Z =< X-2, Z =< 6-X, Z+1 = 2}.
+
+/*
+?- {X =< 5}, maximize(X),T = X + 2.
+X = 5.0,
+T = 5.0+2 .
+
+?- {X =< 5}, maximize(X),{T = X + 2}.
+X = 5.0,
+T = 7.0 .
+
+?- {X =< 5}, sup(X, Z),{T = X + 2}.
+Z = 5.0,
+{T=2.0+X, X=<5.0} .
+
+?- {X =< 5}, sup(X, Z),{T = X + 2},  maximize(T).
+X = Z, Z = 5.0,
+T = 7.0 .
+*/
