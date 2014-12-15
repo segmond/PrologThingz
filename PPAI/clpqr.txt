@@ -1,0 +1,27 @@
+Using both clpq and clpr together
+
+?- use_module(q:library(clpq))
+|    .
+% library(clpq) compiled into clpq 0.07 sec, 2,731 clauses
+true.
+
+?- use_module(r:library(clpr)).
+% library(clpr) compiled into clpr 0.03 sec, 727 clauses
+true.
+
+?- q:{X = 5 }.
+X = 5.
+
+?- r:{X = 5 }.
+X = 5.0 .
+
+?- q:{X = 3}, r:{Y = 3.2}, Z = Y+X.
+X = 3,
+Y = 3.2,
+Z = 3.2+3 .
+
+?- q:{X = 3}, r:{Y = 3.2}, Z is Y+X.
+X = 3,
+Y = 3.2,
+Z = 6.2 .
+
