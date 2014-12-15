@@ -17,7 +17,8 @@ fib(N, A, B, F) :-
         N1 = N - 1, 
         Acc = B,
         Sum = A + B,
-        F = F1 + Acc 
+        F = F1 + Acc,
+        F1 >= N1    % to not run infinitly for unsatisfiable question clp_fib(N, 4).
     }, 
     fib(N1, Acc, Sum, F1).
 
