@@ -1,0 +1,26 @@
+%
+:-use_module(library(clpq)).
+/*
+?- clp_fib(100, F).
+F = 573147844013817084101 .
+
+?- clp_fib(N, 573147844013817084101).
+N = 100 .
+
+ */
+
+fib(N, A, B, F) :- 
+    { N = 0, F = 1};
+    { N = 1, F = 1};
+    {   
+        N >= 2,
+        N1 = N - 1, 
+        Acc = B,
+        Sum = A + B,
+        F = F1 + Acc 
+    }, 
+    fib(N1, Acc, Sum, F1).
+
+clp_fib(N, F) :- 
+    fib(N, 0, 1, F).
+

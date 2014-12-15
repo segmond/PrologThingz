@@ -1,6 +1,7 @@
 %
 :-use_module(library(clpfd)).
 :-use_module(library(clpr)).
+:-use_module(library(clpq)).
 
 % CLP
 %   R = real numbers
@@ -90,3 +91,27 @@ Z = 5.0,
 X = Z, Z = 5.0,
 T = 7.0 .
 */
+
+
+fib(N, F):-
+    N = 0, F = 1
+    ;
+    N = 1, F = 1
+    ;
+    N >= 2,
+    N1 is N - 1, fib(N1, F1),
+    N2 is N - 2, fib(N2, F2),
+    F is F1 + F2.
+
+clp_fib(N, F):-
+    {N = 0, F = 1} ;
+    {N = 1, F = 1} ;
+    {
+        N >= 2,
+        F = F1 + F2, 
+        N1 = N - 1, 
+        N2 = N - 2
+    }, 
+    clp_fib(N1, F1),
+    clp_fib(N2, F2).
+
