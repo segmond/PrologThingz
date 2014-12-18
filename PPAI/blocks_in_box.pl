@@ -9,7 +9,7 @@ block(b2, dim(2.0, 6.0)).
 block(b3, dim(1.0, 2.4)).
 block(b4, dim(1.0, 5.0)).
 
-box(box1, dim(6.0, 6.0)).
+box(box1, dim(6.0, 6.0)).   % Box box1 has size 6 by 6
 box(box2, dim(7.0, 5.0)).
 box(box3, dim(6.0, 5.0)).
 
@@ -53,3 +53,7 @@ fit(BoxName, Block1, Block2, Block3, Block4):-
     no_overlap(Block2, Block3),
     no_overlap(Block2, Block4),
     no_overlap(Block3, Block4).
+
+test(R1,R2,R3,R4):-
+    fit(box1, R1, R2, R3, R4).
+
