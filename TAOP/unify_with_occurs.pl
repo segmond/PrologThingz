@@ -55,3 +55,8 @@ test2:-
 test3:-
     unify(foo(3,Z), foo(B, Y)).
 
+test4:-
+    unify(X, 3).
+
+test5:-
+    unify(X, 3).
