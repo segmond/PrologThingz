@@ -1,6 +1,6 @@
 % unify(Term1, Term2)
 %   Term1 and Term2 are unified, ignoring the occurs check.
-
+% currently broken
 
 unify(X,Y):-
     var(X), var(Y), X=Y.
