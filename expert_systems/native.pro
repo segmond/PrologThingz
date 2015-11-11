@@ -2,7 +2,7 @@
 % knowledge bases.  It includes expanations.
 
 :-op(900,xfy, :).
-
+:-dynamic(known/3).
 main :-
 	greeting,
 	repeat,
@@ -42,6 +42,7 @@ solve :-
 solve :-
 	write('No answer found.'),nl.
 	
+
 ask(Attribute,Value,_) :-
 	known(yes,Attribute,Value),     % succeed if we know its true
 	!.                              % and dont look any further
@@ -50,7 +51,7 @@ ask(Attribute,Value,_) :-
 	!, fail.
 
 ask(Attribute,_,_) :-
-	not multivalued(Attribute),
+	\+ multivalued(Attribute),
 	known(yes,Attribute,_),         % fail if its some other value.
 	!, fail.                        % the cut in clause #1 ensures
 					% this is the wrong value
