@@ -2,7 +2,8 @@
 % knowledge bases.  It includes expanations.
 
 :-op(900,xfy, :).
-:-dynamic(known/3).
+:- dynamic(known/3).
+
 main :-
 	greeting,
 	repeat,
@@ -36,7 +37,7 @@ load_kb :-
 	reconsult(F).
 
 solve :-
-	abolish(known,3),
+	retractall(known),
 	prove(top_goal(X),[]),
 	write('The answer is '),write(X),nl.
 solve :-
@@ -121,6 +122,7 @@ process_ans(X,_).
 
 prove(true,_) :- !.
 prove((Goal,Rest),Hist) :-
+    !,
 	prov(Goal,[Goal|Hist]),
 	prove(Rest,Hist).
 prove(Goal,Hist) :-
