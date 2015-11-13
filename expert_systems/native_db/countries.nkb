@@ -1,0 +1,64 @@
+% Country - identify countries using the native shell
+
+% top_goal where Native starts the inference.
+top_goal(X) :- country(X).
+
+country(united_states):-
+    continent(america),
+    has(oil),
+    is(world_power),
+    language(english).
+
+country(mexico):-
+    continent(america), 
+    language(spanish). 
+
+country(canada):-
+    continent(america),
+    has(oil),
+    language(english).
+
+country(canada):-
+    continent(america),
+    has(oil),
+    language(french).
+
+country(kenya):-
+    continent(africa),
+    language(english).
+
+country(nigeria):-
+    continent(africa), 
+    has(oil),
+    language(english).
+
+country(iraq):-
+    continent(asia),
+    has(oil),
+    language(arabic).
+
+country(spain):-
+    continent(europe),
+    language(spanish).
+
+country(france):-
+    continent(europe),
+    language(french).
+
+country(saudi_arabia):-
+    continent(asia),
+    has(oil),
+    language(arabic).
+
+country(cameroon):-
+    continent(africa),
+    language(french).
+
+country(china):-
+    continent(asia),
+    is(world_power),
+    language(chinese).
+
+continent(X) :- ask(continent,X).
+language(X) :- menuask(language,X, [english, spanish, arabic, chinese, french]).
+multivalued(language).
