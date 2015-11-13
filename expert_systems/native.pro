@@ -38,6 +38,8 @@ load_kb :-
 
 solve :-
 	retractall(known),
+    % abolish(known, 3),
+    % define(known, 3),
 	prove(top_goal(X),[]),
 	write('The answer is '),write(X),nl.
 solve :-
@@ -122,12 +124,13 @@ process_ans(X,_).
 
 prove(true,_) :- !.
 prove((Goal,Rest),Hist) :-
-    !,
+%    !,  % trim solution
 	prov(Goal,[Goal|Hist]),
 	prove(Rest,Hist).
 prove(Goal,Hist) :-
 	prov(Goal,[Goal|Hist]).
 
+prov((_,_),_) :- !, fail. % trim solution
 prov(true,_) :- !.
 prov(menuask(X,Y,Z),Hist) :- menuask(X,Y,Z,Hist), !.
 prov(ask(X,Y),Hist) :- ask(X,Y,Hist), !.
@@ -184,4 +187,7 @@ flatten([[X|Y]|T], L) :-
 flatten([H|T],[H|T2]) :-
 	flatten(T,T2).
                                                                     
+member(E, [E|_]).
+member(E, [_|T]):-
+    member(E, T).
 

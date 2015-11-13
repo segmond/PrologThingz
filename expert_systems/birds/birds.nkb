@@ -1,8 +1,10 @@
 % BIRDS - a sample bird identification system for use with the
 % Native shell.
 
-% top_goal where Native starts the inference.
+% Any predicate in this file must either be defined here or in the 
+% native shell, since we are using our own meta prolog
 
+% top_goal where Native starts the inference.
 top_goal(X) :- bird(X).
 
 order(tubenose) :-
@@ -125,6 +127,7 @@ bird(purple_martin) :-
 	family(swallow),
 	color(dark).
 
+
 country(united_states) :- region(new_england).
 country(united_states) :- region(south_east).
 country(united_states) :- region(mid_west).
@@ -138,15 +141,17 @@ country(canada) :- province(etc).
 
 region(new_england) :-
 	state(X),
-	member(X, [massachusetts, vermont, etc]).
+	member(X, [massachusetts, vermont]).
+
 region(south_east) :-
 	state(X),
-	member(X, [florida, mississippi, etc]).
+	member(X, [florida, mississippi]).
 
 region(canada) :-
 	province(X),
 	member(X, [ontario,quebec,etc]).
 
+% country(X) :- ask(country,X).
 nostrils(X) :- ask(nostrils,X).
 live(X) :- ask(live,X).
 bill(X) :- ask(bill,X).
