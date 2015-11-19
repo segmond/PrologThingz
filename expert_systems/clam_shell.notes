@@ -1,0 +1,36 @@
+A very basic expert systems requires everything to be binary.
+With the calm, we can support backward chaining with uncertainty.
+The use of uncertainty changes the inference process from that provided by pure Prolog.
+So, the rule format is not typical prolog predicates, nor does it use prolog's
+inference engine.
+
+
+Certainty Factors:
+    When we are uncertain about an information, we will assign a certainty factor to it.
+    The inference engine automatically updates and maintains the certainty factors as the
+    inference proceeds.
+
+Rule Uncertainty:
+    Unlike Prolog, the inference does not stop after having found one possible value for a
+    problem.  It finds all of the reasonable problems and reports the certainty to which
+    they are known.
+
+Rules:
+    attribute-value pair
+        av(Attribute, Value)
+
+    rule structure
+        rule(Name,
+            lhs([av(A1, V1), av(A2, V2), ...]),
+            rhs(av(Attr, Val), CF) ).
+        )
+
+        rule(not(turn_over),
+            lhs([av(turn_over, no), av(battery_bad, yes)]),
+            rhs([av(problem, battery), 100).
+        )
+
+        Using DCG, we can turn rules in the above format into the format below
+        if not turn_over and
+        battery_bad
+        then problem is battery.

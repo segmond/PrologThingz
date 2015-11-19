@@ -16,6 +16,9 @@ greeting :-
 	write('This is the native Prolog shell.'), nl,
 	native_help.
 
+load_bird:-
+    reconsult('native_db/birds.nkb').
+
 do(help) :- native_help, !.
 do(load) :- load_kb, !.
 do(solve) :- solve, !.
